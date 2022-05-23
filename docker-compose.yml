@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  # mongo:
+  #   image: mongo
+  #   container_name: myapp-mongodb
+  #   ports:
+  #     - "27017:27017"
+
+  # mysql_db:
+  #   image: mysql
+  #   restart: always
+  #   cap_add:
+  #     - SYS_NICE
+  #   volumes:
+  #     - "./setup.sql:/docker-entrypoint-initdb.d/setup.sql"
+  #   ports:
+  #     - "9906:3306"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+  #     MYSQL_HOST: localhost
+  
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: backend-tecnico
+    container_name: myapp-node-express
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "5000:5050"
+    # depends_on:
+      # - mongo
+      # - mysql_db
+    env_file: .env
+    # environment:
+      # - MONGO_HOSTNAME=$MONGO_HOSTNAME
+      # - MONGO_PORT=$MONGO_PORT
+      # - MONGO_DB=$MONGO_DB
+      # - MYSQL_HOST_IP: mysql_db
